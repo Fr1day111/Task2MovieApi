@@ -15,9 +15,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
+    loadmovies();
     super.initState();
 
-    loadmovies();
+
   }
   loadmovies() async{
     TMDB tmdbwithCustomLogs= TMDB(ApiKeys(dotenv.env['APIKey']!,dotenv.env['ReadAccessToken']!),
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       movies=popular['results'];
     });
-    print(movies);
+   // print(movies);
   }
   @override
   Widget build(BuildContext context) {
