@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:tasksecond/API.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,30 +35,55 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: 100,
-        child: Column(
-          children: [
-            Text('Popular'),
-            ListView.builder(
+      appBar: AppBar(
+        title: Center(child: textstyle(text:'Popular Movies Using IMDB',size: 25,)),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            height: 1000,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
+              mainAxisExtent: 250),
                 itemCount: movies.length,
                 itemBuilder: (context,index){
-                return InkWell(
-                  onTap: (){},
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          'http://image.tmdb.org./t/p/w500'+movies[index]['poster_path']
+                 // print('http://image.tmdb.org./t/p/w500'+movies[index]['poster_path']);
+                  //print('**************');
+                return Column(
+                  children: [
+                    Container(
+                      height: 150,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          image: NetworkImage(
+                            'http://image.tmdb.org./t/p/w200'+movies[index]['poster_path']
+                          )
                         )
-                      )
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: textstyle(text: movies[index]['title'], size: 15),
+                    ),
+                  ],
                 );
             }),
-          ],
+          ),
         ),
       )
     );
+  }
+}
+class textstyle extends StatelessWidget{
+  final String text;
+  final double size;
+
+  const textstyle({super.key, required this.text,required this.size});
+
+  Widget build(BuildContext context){
+    return Text(text,
+    style: GoogleFonts.acme(fontSize: size),
+    textAlign: TextAlign.center,);
   }
 }
