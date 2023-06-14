@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -16,13 +17,33 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     loadmovies();
+   // fetchPopularMovies();
     super.initState();
 
 
   }
+  // Future<void> fetchPopularMovies() async {
+  //   final apiKey = dotenv.env['APIkey'];
+  //   final url = Uri.parse('https://api.themoviedb.org/3/movie/157336?api_key=$apiKey');
+  //
+  //   final response = await http.get(url);
+  //
+  //   if (response.statusCode == 200) {
+  //     final responseData = response.body;
+  //     print(apiKey);
+  //     print(responseData);
+  //     print('-----------------------------------');
+  //     setState(() {
+  //       movies=responseData as List;
+  //     });
+  //   } else {
+  //     print('API request failed with status code: ${response.statusCode}');
+  //   }
+  // }
+
   loadmovies() async{
     TMDB tmdbwithCustomLogs= TMDB(ApiKeys(dotenv.env['APIKey']!,dotenv.env['ReadAccessToken']!),
-      logConfig: ConfigLogger(
+      logConfig: const ConfigLogger(
         showLogs: true,//must be true than only all other logs will be shown
         showErrorLogs: true,
       ),
@@ -31,20 +52,21 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       movies=popular['results'];
     });
-   // print(movies);
+  //  print(popular);
+    //print('-------------------------------------------------');
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: textstyle(text:'Popular Movies Using IMDB',size: 25,)),
+        title: const Center(child: textstyle(text:'Popular Movies Using IMDB',size: 25,)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             height: 1000,
             child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
               mainAxisExtent: 250),
                 itemCount: movies.length,
                 itemBuilder: (context,index){
